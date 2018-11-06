@@ -1,0 +1,6 @@
+const M = 5
+SAVAGE = (getserving -> SAVAGE).
+COOK = (fillpot -> COOK).
+POT = SERVINGS[0],
+SERVINGS[i:0..M] = (when (i==0) fillpot-> SERVINGS[M]|when (i>0 ) getserving -> SERVINGS[i-1]).
+||SAVAGES = (SAVAGE || COOK || POT).

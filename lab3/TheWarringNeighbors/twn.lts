@@ -1,0 +1,32 @@
+const False = 0
+const True = 1
+range Bool = False..True
+set BoolActions = {setTrue, setFalse, [False], [True]}
+BOOLVAR = VAL[False],
+
+VAL[v:Bool] = (setTrue -> VAL[True]
+			|setFalse -> VAL[False]
+			|[v] -> VAL[v]
+			).
+||FLAGS = (flag1:BOOLVAR || flag2:BOOLVAR).
+
+NEIGHBOR1 = (flag1.setTrue -> TEST),
+TEST = (flag2[raised:Bool] ->
+		if (raised) then (flag1.setFalse -> NEIGHBOR1)
+		else (enter -> leave -> flag1.setFalse -> NEIGHBOR1)
+			) + {{flag1,flag2}.BoolActions}.
+
+NEIGHBOR2 = (flag2.setTrue -> TEST),
+TEST = (flag1[raised:Bool] ->
+		if (raised) then (flag2.setFalse -> NEIGHBOR2)
+		else (enter -> leave -> flag2.setFalse -> NEIGHBOR2)
+			) + {{flag1,flag2}.BoolActions}.
+
+property MUTEX = (n1.enter -> n1.leave -> MUTEX | n2.enter -> n2.leave -> MUTEX).
+
+||FIELD = (n1:NEIGHBOR1 || n2:NEIGHBOR2 || {n1,n2}::FLAGS || MUTEX).
+
+progress ENTER1 = {n1.enter} // NEIGHBOR 1 always gets to enter
+progress ENTER2 = {n2.enter} // NEIGHBOR 2 always gets to enter
+
+||GREEDY = FIELD << {{n1,n2}.{flag1,flag2}.setTrue}.

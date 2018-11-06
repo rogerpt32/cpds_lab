@@ -1,0 +1,43 @@
+/* Homework: LTS & FSP
+*
+*
+*
+* Name: Miguel
+* Surname: Alcon
+*
+* Name: Roger
+* Surname: Pujol
+*
+*/
+
+/* Museum */
+const N = 5
+EAST = (arrive -> EAST).
+WEST = (leave -> WEST).
+DIRECTOR = (open -> close -> DIRECTOR).
+CONTROL = CLOSED[0],
+CLOSED[i:0..N] = (when (i==0) open -> OPENED[0]
+				|when (i>0) leave -> CLOSED[i-1]
+				),
+OPENED[i:0..N] = (close -> CLOSED[i]
+					|when (i<N) arrive -> OPENED[i+1]
+					|when (i>0) leave -> OPENED[i-1]
+					).
+||MUSEUM = (EAST || WEST || DIRECTOR || CONTROL).
+
+/* Time-Out Client server */
+CLIENT = (call -> WAIT),
+WAIT = (answer -> continue -> CLIENT | timeout -> CLIENT).
+
+SERVER = (request -> service -> reply -> SERVER).
+
+||CLIENT_SERVER = (CLIENT || SERVER) /{call/request, answer/reply}.
+
+// The first problem we saw is that the timeouts are not going back to the start, which is not correct.
+// Furthermore, one of the timeouts has a service after it, which is not possible.
+// In conclusion, our draw don't concide with the problem described at the statement.
+
+/* write your solution */
+SERVER = (request -> (service -> (reply -> SERVER | timeout -> SERVER )| timeout -> SERVER)).
+
+/* end homework */

@@ -1,0 +1,17 @@
+GAME = (two -> WIN | one -> WIN | three -> lose -> GAME ),
+WIN = (win -> GAME).
+
+range K = 1..3
+DOUBLE = (in[k:K] -> out[2*k] -> DOUBLE).
+
+
+DOUBLE2 = (in[k:K] -> OUT_DOUBLE2[k]),
+OUT_DOUBLE2[k:K] = (out[2*k] -> DOUBLE2).
+
+SEVERAL_TICKS(N=4) = TICK[N],
+TICK[i:1..N] = (when(i>1) tick -> TICK[i-1] 
+				| when(i==1) tick -> STOP).
+
+SEVERAL_TICKS_INVERSE(N=4) = TICK_I[N],
+TICK_I[i:N..N*2] = (when(i<N*2) tick -> TICK_I[i+1] 
+				| when(i==N*2) tick -> STOP).

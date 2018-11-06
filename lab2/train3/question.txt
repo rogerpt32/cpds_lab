@@ -1,0 +1,3 @@
+This misbehavior is happening because with the just go for a walk, there is almost
+no control. Thats because every thread almost don't communicate (because they are
+not synchronized) with the others.

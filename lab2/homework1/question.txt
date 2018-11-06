@@ -1,0 +1,3 @@
+The aproach of Banket is better than the BanketNoWait because the second one is
+constantly asking for the value of a variable whereas the first one just waits until
+there is a notification about it.

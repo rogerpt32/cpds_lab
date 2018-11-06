@@ -1,0 +1,3 @@
+This misbehavior is because all the savages wait until the pot is full but there
+are more savages than servings in the pot, with the if instead of the while once
+there is any serving, they eat even if after the first wait there is no food again.
